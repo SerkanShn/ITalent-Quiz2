@@ -31,7 +31,7 @@
 
     <div class="mb-3">
         <label asp-for="PostContents" class="form-label">Post İçeriği :</label>
-        <input class="form-control" asp-for="PostContents">
+        <textarea class="form-control" rows="4" cols="50" asp-for="PostContents"> </textarea>
         <span class="text-danger" asp-validation-for="PostContents"></span>
 
     </div>
