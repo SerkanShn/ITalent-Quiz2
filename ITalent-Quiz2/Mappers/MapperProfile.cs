@@ -10,6 +10,7 @@ namespace ITalent_Quiz2.Mappers
             CreateMap<Post, PostCreateViewModel>().ReverseMap();
             CreateMap<Post, IndexPostViewModel>().ReverseMap();
             CreateMap<Post, PostViewModel>().ReverseMap();
+            CreateMap<Post, PostUpdateViewModel>().ReverseMap();
             CreateMap<Category, CategoryViewModel>().ReverseMap();
 
         }
