@@ -39,14 +39,7 @@ namespace ITalent_Quiz2.Controllers
         public async Task<IActionResult> Create(PostCreateViewModel request,IFormFile photo)
 
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    var categoryList = _blogRepository.GetCategories();
 
-            //    ViewBag.selectList = new SelectList(categoryList, "Id", "Name");
-
-            //    return View(request);
-            //}
 
             if (photo != null && photo.Length > 0)
             {
@@ -55,7 +48,6 @@ namespace ITalent_Quiz2.Controllers
                 var root = _fileProvider.GetDirectoryContents("wwwroot");
                 var picturesDirectory = root.Single(x => x.Name == "pictures");
 
-                // var path2== "D:\\ITalentBootcamp\\WebApp\\wwwroot\\pictures" + "ahmet.jpg";
 
                 var path = Path.Combine(picturesDirectory.PhysicalPath, photo.FileName);
 
@@ -98,22 +90,49 @@ namespace ITalent_Quiz2.Controllers
         }
 
 
-        //public IActionResult Update(int id)
+        public IActionResult Update(int id)
 
-        //{
-        //    //Id'ye data varmı yokmu
-        //    //var categoryList = _productRepository.GetCategories();
+        {
+            
+            var categoryList = _blogRepository.GetCategories();
 
-        //    //ViewBag.selectList = new SelectList(categoryList, "Id", "Name");
+            ViewBag.selectList = new SelectList(categoryList, "Id", "Title");
 
-        //    //var productUpdateViewModel = _mapper.Map<ProductUpdateViewModel>(_productRepository.GetById(id));
+            var postUpdateViewModel = _mapper.Map<PostUpdateViewModel>(_blogRepository.GetById(id));
 
-        //    //return View(productUpdateViewModel);
-        //}
+            return View(postUpdateViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(PostUpdateViewModel request, IFormFile photo)
+
+        {
+
+
+            if (photo != null && photo.Length > 0)
+            {
+
+
+                var root = _fileProvider.GetDirectoryContents("wwwroot");
+                var picturesDirectory = root.Single(x => x.Name == "pictures");
+
+
+                var path = Path.Combine(picturesDirectory.PhysicalPath, photo.FileName);
+
+
+                using var stream = new FileStream(path, FileMode.Create);
+                await photo.CopyToAsync(stream);
+
+                request.PostBanner = photo.FileName;
+            }
+
+            _blogRepository.Update(_mapper.Map<Post>(request));
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
 
 
 
-
+        }
 
 
 

@@ -12,6 +12,8 @@ namespace ITalent_Quiz2.Repositories
 
         Post GetById(int id);
         Post Delete(int id);
+        void Update(Post post);
+
 
 
     }

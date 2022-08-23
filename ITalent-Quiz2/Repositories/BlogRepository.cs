@@ -44,6 +44,12 @@ namespace ITalent_Quiz2.Repositories
             return _context.Categories.ToList();
         }
 
-   
+        public void Update(Post post)
+        {
+        
+             _context.Update(post);
+             _context.SaveChanges();
+
+        }
     }
 }
