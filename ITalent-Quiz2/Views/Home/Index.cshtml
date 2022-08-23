@@ -2,7 +2,67 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model (List<IndexPostViewModel> posts,int totalCount,List<CategoryViewModel> categories)
+
+
+
+
+<div class="row">
+    <div class="leftcolumn">
+
+        @foreach (var item in Model.posts)
+        {
+            <div class="card">
+                <h2>@item.Title</h2>
+                <h5>@item.CreatedOn</h5>
+                <div style="height:200px;">
+                    <img style="height: 100%; width: 100%; object-fit: contain" src="~/pictures/@item.PostBanner">
+                </div>
+                <p>@item.Summary</p>
+                <a class="btn btn-sm btn-primary" asp-controller="Blog" asp-action="Post" asp-route-id="@item.Id">Devamını oku</a>
+            </div>
+        }
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center pt-3">
+                <li class="page-item @(ViewBag.page==1 ? "disabled" : "")">
+                    <a class="page-link" href="/?page=@(ViewBag.page-1)&pageSize=@ViewBag.pageSize">Previous</a>
+                </li>
+                @{
+                    int PageSize = (int)Math.Ceiling((double)Model.totalCount / ViewBag.pageSize);
+                }
+                @for (int i = 0; i < PageSize; i++)
+                {
+                    <li class="page-item"><a class="page-link @(ViewBag.page==i+1 ? "text-success" : "")" href="/?page=@(i+1)&pageSize=@ViewBag.pageSize">@(i+1)</a></li>
+                }
+
+
+                <li class="page-item @(ViewBag.page==PageSize ? "disabled" : "") ">
+                    <a class="page-link " href="/?page=@(ViewBag.page+1)&pageSize=@ViewBag.pageSize">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+    <div class="rightcolumn">
+        <div class="card">
+            <h3>Kategoriler</h3>
+            @foreach (var item in Model.categories)
+            {
+                <div>item.Title</div><br>
+            }
+            
+
+        </div>
+
+        <div class="card">
+            <a class="btn btn-success" asp-controller="Blog" asp-action="Create">Post Oluştur</a>
+        </div>
+
+
+    </div>
+
+
+
 </div>
