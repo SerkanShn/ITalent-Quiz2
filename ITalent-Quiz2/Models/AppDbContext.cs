@@ -45,6 +45,9 @@ namespace ITalent_Quiz2.Models
             modelBuilder.Entity<Post>()
                     .Property(p => p.EditedOn)
                     .IsRequired(false);
+            modelBuilder.Entity<Post>()
+                   .Property(p => p.PostBanner)
+                   .IsRequired(false);
 
 
 
